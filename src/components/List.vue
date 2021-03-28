@@ -1,36 +1,50 @@
 <template>
-    <div class="employee-list">
-        <table class="table_block">
-            <tr class="table-header">
-                <th
-                    v-for="c in columns"
-                >{{c}} column</th>
-            </tr>
-            <tr
-                v-for="i in rows"
-                :class="{ 'row-diff-color': !(i%2) }"
-            >
-                <td
-                    v-for="j in columns"
+    <div>
+        <div class="block_flex">
+            <h3>{{tableName}}</h3>
+            <button>Добавить</button>
+        </div>
+        <div class="employee-list">
+            <table class="table_block">
+                <tr class="table-header">
+                    <th
+                        v-for="c in columns"
+                    >{{c}} column</th>
+                </tr>
+                <tr
+                    v-for="i in rows"
+                    :class="{ 'row-diff-color': !(i%2) }"
                 >
-                    {{i}} | {{j}}
-                </td>
-            </tr>
-        </table>
+                    <td
+                        v-for="j in columns"
+                    >
+                        {{i}} | {{j}}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-    name: "List",
+        name: "List",
         props: {
+            tableName: String,
             columns: Number,
-            rows: Number
-        }
+            rows: Number,
+            rowLimit: Number,
+        },
     }
 </script>
 
 <style scoped>
+    .block_flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .employee-list {
         border-radius: 10px 10px 0 0;
         overflow: hidden;
@@ -66,5 +80,24 @@
 
     .row-diff-color {
         background: #F3F3F3;
+    }
+
+    .page-selector {
+        width: 20%;
+        height: 20px;
+        background: aqua;
+    }
+
+    button {
+        height: 40px;
+        padding: 0 30px;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 1.1em;
+        color: #FFF;
+        background-color: #01987A;
+        cursor: pointer;
+        outline: none;
     }
 </style>

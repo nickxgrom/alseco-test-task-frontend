@@ -2,6 +2,7 @@
     <div class="wrapper">
         <h1>ALSECO test task</h1>
         <list
+            table-name="Список сотрудников"
             :rows="8"
             :columns="4"
         ></list>
