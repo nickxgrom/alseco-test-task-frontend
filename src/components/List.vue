@@ -8,17 +8,17 @@
             <table class="table_block">
                 <tr class="table-header">
                     <th
-                        v-for="c in columns"
-                    >{{c}} column</th>
+                        v-for="header in headers"
+                    >{{ header }}</th>
                 </tr>
                 <tr
-                    v-for="i in rows"
+                    v-for="i in tableData.length"
                     :class="{ 'row-diff-color': !(i%2) }"
                 >
                     <td
-                        v-for="j in columns"
+                        v-for="value in Object.values(tableData[i-1])"
                     >
-                        {{i}} | {{j}}
+                        {{ value }}
                     </td>
                 </tr>
             </table>
@@ -31,9 +31,9 @@
         name: "List",
         props: {
             tableName: String,
-            columns: Number,
-            rows: Number,
             rowLimit: Number,
+            headers: Array,
+            tableData: Array,
         },
     }
 </script>
@@ -57,6 +57,7 @@
         border-collapse: collapse;
         user-select: none;
         border-bottom: 2px solid #01987A;
+        color: #302E30;
     }
 
     .table-header {
@@ -67,6 +68,7 @@
 
     td {
         padding: 7px 0;
+        width: 33%;
     }
 
     tr {

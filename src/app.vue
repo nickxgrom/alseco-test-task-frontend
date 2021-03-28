@@ -3,8 +3,8 @@
         <h1>ALSECO test task</h1>
         <list
             table-name="Список сотрудников"
-            :rows="8"
-            :columns="4"
+            :headers="['ФИО', 'Количество', 'Общая стоимость']"
+            :table-data="tableData"
         ></list>
     </div>
 </template>
@@ -15,6 +15,27 @@ import List from "./components/List.vue";
         name: "app",
         components: {
             List,
+        },
+        data: () => {
+            return {
+                tableData: [
+                    {
+                        fullName: "Иванов Иван Иванович",
+                        totalMaterialValues: 2,
+                        totalPrice: 231000
+                    },
+                    {
+                        initials: "Петров Петр Петрович",
+                        totalMaterialValues: 3,
+                        totalPrice: 31200
+                    },
+                    {
+                        initials: "Пахомов Исаак Андреевич",
+                        totalMaterialValues: 1,
+                        totalPrice: 98300
+                    },
+                ]
+            }
         }
     }
 </script>
