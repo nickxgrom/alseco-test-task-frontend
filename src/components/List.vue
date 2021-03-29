@@ -2,7 +2,7 @@
     <div>
         <div class="block_flex">
             <h3>{{tableName}}</h3>
-            <button>Добавить</button>
+            <button class="btn btn_action">Добавить</button>
         </div>
         <div class="employee-list">
             <table class="table_block">
@@ -22,6 +22,14 @@
                     </td>
                 </tr>
             </table>
+        </div>
+        <div class="page-selector block-button_flex">
+            <button
+                v-for="pageNumber in Math.ceil(tableData.length/rowLimit)"
+                class="btn page-btn"
+            >
+                {{pageNumber}}
+            </button>
         </div>
     </div>
 </template>
@@ -85,21 +93,33 @@
     }
 
     .page-selector {
-        width: 20%;
-        height: 20px;
-        background: aqua;
+        margin: 20px auto;
     }
 
-    button {
-        height: 40px;
-        padding: 0 30px;
+    .btn {
         border: none;
-        border-radius: 10px;
         font-family: 'Ubuntu', sans-serif;
         font-size: 1.1em;
         color: #FFF;
         background-color: #01987A;
         cursor: pointer;
         outline: none;
+    }
+
+    .btn_action {
+        height: 40px;
+        padding: 0 30px;
+        border-radius: 10px;
+    }
+
+    .block-button_flex {
+        display: flex;
+        justify-content: center;
+    }
+
+    .page-btn {
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0 5px;
     }
 </style>

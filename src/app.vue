@@ -5,6 +5,7 @@
             table-name="Список сотрудников"
             :headers="['ФИО', 'Количество', 'Общая стоимость']"
             :table-data="tableData"
+            :row-limit="1"
         ></list>
     </div>
 </template>
