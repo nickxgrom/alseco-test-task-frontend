@@ -7,6 +7,9 @@
         <div class="employee-list">
             <table class="table_block">
                 <tr class="table-header">
+                    <th v-if="numerable">
+                        №
+                    </th>
                     <th
                         v-for="header in headers"
                     >{{ header }}</th>
@@ -16,6 +19,9 @@
                     :class="{ 'row-diff-color': !(row%2), 'row_focused': row === focusedRow }"
                     @click="focusedRow = row"
                 >
+                    <td
+                        v-if="numerable"
+                    >{{row}}</td>
                     <td
                         v-for="key in Object.keys(tableData[row-1])"
                         v-if="key !== 'id'"
@@ -44,13 +50,13 @@
             rowLimit: Number,
             headers: Array,
             tableData: Array,
+            numerable: Boolean,
         },
         data: () => {
             return {
                 focusedRow: null,
             }
         },
-
     }
 </script>
 

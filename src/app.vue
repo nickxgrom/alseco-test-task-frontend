@@ -6,6 +6,7 @@
             :headers="['ФИО', 'Количество', 'Общая стоимость']"
             :table-data="tableData"
             :row-limit="10"
+            :numerable="false"
         ></list>
     </div>
 </template>
