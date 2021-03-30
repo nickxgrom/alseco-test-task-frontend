@@ -15,7 +15,7 @@
                     >{{ header }}</th>
                 </tr>
                 <tr
-                    v-for="row in tableData.length"
+                    v-for="row in pageTableData.length"
                     :class="{ 'row-diff-color': !(row%2), 'row_focused': row === focusedRow }"
                     @click="focusedRow = row"
                 >
@@ -23,10 +23,10 @@
                         v-if="numerable"
                     >{{row}}</td>
                     <td
-                        v-for="key in Object.keys(tableData[row-1])"
+                        v-for="key in Object.keys(pageTableData[row-1])"
                         v-if="key !== 'id'"
                     >
-                        {{ tableData[row-1][key] }}
+                        {{ pageTableData[row-1][key] }}
                     </td>
                 </tr>
             </table>
@@ -35,6 +35,7 @@
             <button
                 v-for="pageNumber in Math.ceil(tableData.length/rowLimit)"
                 class="btn page-btn"
+                @click="tablePage = pageNumber-1"
             >
                 {{pageNumber}}
             </button>
@@ -55,8 +56,14 @@
         data: () => {
             return {
                 focusedRow: null,
+                tablePage: 0,
             }
         },
+        computed: {
+            pageTableData() {
+                return this.tableData.slice(this.tablePage*this.rowLimit, (this.rowLimit*this.tablePage)+this.rowLimit)
+            }
+        }
     }
 </script>
 
