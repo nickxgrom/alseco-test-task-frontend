@@ -19,6 +19,7 @@ import List from "./components/List.vue";
             List,
         },
         created() {
+            window.getSelection().addRange(new Range())
             fetch("http://localhost:3000/employeesTable")
                 .then(res => res.json())
                     .then(data => {
