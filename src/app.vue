@@ -5,7 +5,7 @@
             table-name="Список сотрудников"
             :headers="['ФИО', 'Количество', 'Общая стоимость']"
             :table-data="tableData"
-            :row-limit="1"
+            :row-limit="10"
         ></list>
     </div>
 </template>
@@ -17,25 +17,16 @@ import List from "./components/List.vue";
         components: {
             List,
         },
+        created() {
+            fetch("http://localhost:3000/employeesTable")
+                .then(res => res.json())
+                    .then(data => {
+                        this.tableData = data
+                    })
+        },
         data: () => {
             return {
-                tableData: [
-                    {
-                        fullName: "Иванов Иван Иванович",
-                        totalMaterialValues: 2,
-                        totalPrice: 231000
-                    },
-                    {
-                        initials: "Петров Петр Петрович",
-                        totalMaterialValues: 3,
-                        totalPrice: 31200
-                    },
-                    {
-                        initials: "Пахомов Исаак Андреевич",
-                        totalMaterialValues: 1,
-                        totalPrice: 98300
-                    },
-                ]
+                tableData: [],
             }
         }
     }

@@ -12,13 +12,15 @@
                     >{{ header }}</th>
                 </tr>
                 <tr
-                    v-for="i in tableData.length"
-                    :class="{ 'row-diff-color': !(i%2) }"
+                    v-for="row in tableData.length"
+                    :class="{ 'row-diff-color': !(row%2), 'row_focused': row === focusedRow }"
+                    @click="focusedRow = row"
                 >
                     <td
-                        v-for="value in Object.values(tableData[i-1])"
+                        v-for="key in Object.keys(tableData[row-1])"
+                        v-if="key !== 'id'"
                     >
-                        {{ value }}
+                        {{ tableData[row-1][key] }}
                     </td>
                 </tr>
             </table>
@@ -43,6 +45,12 @@
             headers: Array,
             tableData: Array,
         },
+        data: () => {
+            return {
+                focusedRow: null,
+            }
+        },
+
     }
 </script>
 
@@ -59,6 +67,7 @@
     }
 
     table {
+        table-layout: fixed;
         font-size: 1.2em;
         text-align: center;
         width: 100%;
@@ -76,7 +85,6 @@
 
     td {
         padding: 7px 0;
-        width: 33%;
     }
 
     tr {
@@ -121,5 +129,9 @@
         border-radius: 5px;
         padding: 5px;
         margin: 0 5px;
+    }
+
+    .row_focused {
+        color: #01987A;
     }
 </style>
