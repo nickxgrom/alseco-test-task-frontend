@@ -25,6 +25,7 @@
                     <td
                         v-for="key in Object.keys(pageTableData[row-1])"
                         v-if="key !== 'id'"
+                        @contextmenu="contextMenuHandler($event, row)"
                     >
                         {{ pageTableData[row-1][key] }}
                     </td>
@@ -40,12 +41,22 @@
                 {{pageNumber}}
             </button>
         </div>
+        <context-menu
+            @close="contextMenuVisible = false"
+            v-if="contextMenuVisible"
+            :position="clientPosition"
+            :items="[{title: 'Удалить', action: () => {}}]"
+        />
     </div>
 </template>
 
 <script>
+import ContextMenu from "./ContextMenu.vue";
     export default {
         name: "List",
+        components: {
+            ContextMenu,
+        },
         props: {
             tableName: String,
             rowLimit: Number,
@@ -57,11 +68,23 @@
             return {
                 focusedRow: null,
                 tablePage: 0,
+                contextMenuVisible: false,
+                clientPosition: {},
             }
         },
         computed: {
             pageTableData() {
                 return this.tableData.slice(this.tablePage*this.rowLimit, (this.rowLimit*this.tablePage)+this.rowLimit)
+            }
+        },
+        methods: {
+            contextMenuHandler(e, row) {
+                this.focusedRow = row
+                this.contextMenuVisible = false
+                this.clientPosition.x = e.clientX
+                this.clientPosition.y = e.clientY
+                this.contextMenuVisible = true
+                e.preventDefault()
             }
         }
     }
