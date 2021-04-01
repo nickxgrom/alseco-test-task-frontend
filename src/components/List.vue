@@ -21,10 +21,11 @@
                 >
                     <td
                         v-if="numerable"
+                        @contextmenu="contextMenuHandler($event, row, pageTableData[row-1])"
                     >{{row}}</td>
                     <td
                         v-for="key in Object.keys(pageTableData[row-1])"
-                        v-if="key !== 'id'"
+                        v-if="key !== 'id' && key !== 'employeeId'"
                         @contextmenu="contextMenuHandler($event, row, pageTableData[row-1])"
                     >
                         {{ pageTableData[row-1][key] }}
@@ -47,8 +48,8 @@
             :position="clientPosition"
             :items="contextMenuItems"
             :record="currentRecord"
+            :delete-action="onDelete"
         />
-
     </div>
 </template>
 
@@ -69,6 +70,7 @@ import ConfirmDialog from "../ConfirmDialog.vue";
             headers: Array,
             tableData: Array,
             numerable: Boolean,
+            onDelete: Function,
         },
         data: () => {
             return {
@@ -82,21 +84,16 @@ import ConfirmDialog from "../ConfirmDialog.vue";
                     {
                         title: 'Удалить',
                         msgToConfirm: (record) => `Вы действительно хотите удалить запись '${record}'`,
-                        action: (id) => {
-                            fetch(`http://localhost:3000/employee/${id}`, {
-                                method: 'DELETE'
-                            }).then(res => {
-                                console.log(res)
-                            })
-                        },
-                        commit: 'removeEmployee'
                     }
                 ]
             }
         },
         computed: {
             pageTableData() {
-                return this.tableData.slice(this.tablePage*this.rowLimit, (this.rowLimit*this.tablePage)+this.rowLimit)
+                if (this.tableData.length<=this.rowLimit) {
+                    return this.tableData
+                } else
+                    return this.tableData.slice(this.tablePage*this.rowLimit, (this.rowLimit*this.tablePage)+this.rowLimit)
             },
         },
         methods: {

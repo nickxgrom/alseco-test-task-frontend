@@ -11,9 +11,8 @@
             v-if="contextMenuVisible"
             @close="contextMenuVisible = false"
             :message="currentAction.msgToConfirm(record.fullName || record.name)"
-            :action="currentAction.action"
+            :delete-action="deleteAction"
             :deleteRecordId="record.id"
-            :commit="currentAction.commit"
         ></confirm-dialog>
     </div>
 </template>
@@ -31,6 +30,7 @@
             items: Array,
             position: Object,
             record: Object,
+            deleteAction: Function,
         },
         data() {
             return {

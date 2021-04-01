@@ -35,13 +35,11 @@
         props: {
             message: String,
             deleteRecordId: Number,
-            action: Function,
-            commit: String,
+            deleteAction: Function,
         },
         methods: {
             delRecord() {
-                this.$store.commit(this.commit, this.deleteRecordId)
-                this.action(this.deleteRecordId)
+                this.deleteAction(this.deleteRecordId)
                 this.$emit('close')
             }
         }

@@ -7,6 +7,7 @@
             :table-data="tableData"
             :row-limit="10"
             :numerable="false"
+            :on-delete="deleteAction"
         ></list>
     </div>
 </template>
@@ -30,6 +31,16 @@ import List from "./components/List.vue";
         data: () => {
             return {
                 tableData: [],
+            }
+        },
+        methods: {
+            deleteAction(id) {
+                fetch(`http://localhost:3000/employee/${id}`, {
+                    method: 'DELETE'
+                }).then(res => {
+                    console.log(res)
+                    this.$store.commit('removeEmployee', id)
+                })
             }
         }
     }
