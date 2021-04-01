@@ -25,7 +25,7 @@
                     <td
                         v-for="key in Object.keys(pageTableData[row-1])"
                         v-if="key !== 'id'"
-                        @contextmenu="contextMenuHandler($event, row)"
+                        @contextmenu="contextMenuHandler($event, row, pageTableData[row-1])"
                     >
                         {{ pageTableData[row-1][key] }}
                     </td>
@@ -45,17 +45,23 @@
             @close="contextMenuVisible = false"
             v-if="contextMenuVisible"
             :position="clientPosition"
-            :items="[{title: 'Удалить', action: () => {}}]"
+            :items="contextMenuItems"
+            :record="currentRecord"
         />
+
     </div>
 </template>
 
 <script>
 import ContextMenu from "./ContextMenu.vue";
+import Overlay from "./Overlay.vue";
+import ConfirmDialog from "../ConfirmDialog.vue";
     export default {
         name: "List",
         components: {
             ContextMenu,
+            Overlay,
+            ConfirmDialog,
         },
         props: {
             tableName: String,
@@ -70,22 +76,36 @@ import ContextMenu from "./ContextMenu.vue";
                 tablePage: 0,
                 contextMenuVisible: false,
                 clientPosition: {},
+                overlayVisible: false,
+                currentRecord: null,
+                contextMenuItems: [
+                    {
+                        title: 'Удалить',
+                        msgToConfirm: (record) => `Вы действительно хотите удалить запись '${record}'`,
+                        action: (id) => {
+                            fetch(`http://localhost:3000/employee/${id}`, {
+                                method: 'DELETE'
+                            }).then(res => console.log(res))
+                        }
+                    }
+                ]
             }
         },
         computed: {
             pageTableData() {
                 return this.tableData.slice(this.tablePage*this.rowLimit, (this.rowLimit*this.tablePage)+this.rowLimit)
-            }
+            },
         },
         methods: {
-            contextMenuHandler(e, row) {
+            contextMenuHandler(e, row, record) {
                 this.focusedRow = row
                 this.contextMenuVisible = false
                 this.clientPosition.x = e.clientX
                 this.clientPosition.y = e.clientY
                 this.contextMenuVisible = true
+                this.currentRecord = record
                 e.preventDefault()
-            }
+            },
         }
     }
 </script>

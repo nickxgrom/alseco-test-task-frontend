@@ -6,15 +6,36 @@
             @click="clickHandler(item)"
             @contextmenu="$event.preventDefault()"
         >{{item.title}}</div>
+
+        <confirm-dialog
+            v-if="contextMenuVisible"
+            @close="contextMenuVisible = false"
+            :message="currentAction.msgToConfirm(record.fullName || record.name)"
+            :action="currentAction.action"
+            :deleteRecordId="record.id"
+        ></confirm-dialog>
     </div>
 </template>
 
 <script>
+    import ConfirmDialog from "../ConfirmDialog.vue";
+    import Overlay from "./Overlay.vue";
     export default {
         name: "ContextMenu",
+        components: {
+            ConfirmDialog,
+            Overlay,
+        },
         props: {
             items: Array,
             position: Object,
+            record: Object,
+        },
+        data() {
+            return {
+                contextMenuVisible: false,
+                currentAction: null,
+            }
         },
         mounted() {
             document.addEventListener('click', event => this.clickOutsideHandler(event))
@@ -38,8 +59,8 @@
                 this.$refs.contextMenu.style.left = this.position.x + 'px'
             },
             clickHandler(item) {
-                item.action()
-                this.$emit('close')
+                this.currentAction = item
+                this.contextMenuVisible = true
             }
         }
     }
