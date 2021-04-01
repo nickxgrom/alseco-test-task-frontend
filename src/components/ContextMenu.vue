@@ -13,6 +13,7 @@
             :message="currentAction.msgToConfirm(record.fullName || record.name)"
             :action="currentAction.action"
             :deleteRecordId="record.id"
+            :commit="currentAction.commit"
         ></confirm-dialog>
     </div>
 </template>

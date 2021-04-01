@@ -24,6 +24,7 @@ import List from "./components/List.vue";
                 .then(res => res.json())
                     .then(data => {
                         this.tableData = data
+                        this.$store.commit('getData', data)
                     })
         },
         data: () => {

@@ -10,7 +10,7 @@
             </div>
             <div class="block-button">
                 <button
-                    @click="action(deleteRecordId); $emit('close')"
+                    @click="delRecord"
                 >
                     Подтвердить
                 </button>
@@ -35,8 +35,16 @@
         props: {
             message: String,
             deleteRecordId: Number,
-            action: Function
+            action: Function,
+            commit: String,
         },
+        methods: {
+            delRecord() {
+                this.$store.commit(this.commit, this.deleteRecordId)
+                this.action(this.deleteRecordId)
+                this.$emit('close')
+            }
+        }
     }
 </script>
 

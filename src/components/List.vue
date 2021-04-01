@@ -85,8 +85,11 @@ import ConfirmDialog from "../ConfirmDialog.vue";
                         action: (id) => {
                             fetch(`http://localhost:3000/employee/${id}`, {
                                 method: 'DELETE'
-                            }).then(res => console.log(res))
-                        }
+                            }).then(res => {
+                                console.log(res)
+                            })
+                        },
+                        commit: 'removeEmployee'
                     }
                 ]
             }
