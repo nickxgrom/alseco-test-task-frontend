@@ -1,0 +1,10 @@
+const module = {
+    state: {
+
+    },
+    mutations: {
+
+    }
+}
+
+export default module
