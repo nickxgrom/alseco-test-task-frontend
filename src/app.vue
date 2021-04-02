@@ -8,16 +8,37 @@
             :row-limit="10"
             :numerable="false"
             :on-delete="deleteAction"
+            @selectedEmp="formHandler($event)"
+
         ></list>
+        <div class="add-item">
+            <div class="add-item__title">
+                Добавить сотрудника
+            </div>
+            <div class="block__flex">
+                <input type="text" placeholder="Имя">
+                <input type="text" placeholder="Фамилия">
+                <input type="text" placeholder="Отчество">
+                <button class="add-item__btn">Добавить</button>
+            </div>
+        </div>
+        <Form
+            v-if="formVisible"
+            :id="selectedEmpId"
+            @closeForm="formVisible = false"
+        />
     </div>
 </template>
 
 <script>
 import List from "./components/List.vue";
+import Form from "./components/Form.vue";
+
     export default {
         name: "app",
         components: {
             List,
+            Form,
         },
         created() {
             window.getSelection().addRange(new Range())
@@ -31,6 +52,8 @@ import List from "./components/List.vue";
         data: () => {
             return {
                 tableData: [],
+                selectedEmpId: null,
+                formVisible: false,
             }
         },
         methods: {
@@ -41,7 +64,13 @@ import List from "./components/List.vue";
                     console.log(res)
                     this.$store.commit('removeEmployee', id)
                 })
+            },
+            formHandler(id) {
+                this.selectedEmpId = id
+                this.formVisible = true
             }
+        },
+        computed: {
         }
     }
 </script>
@@ -59,4 +88,37 @@ import List from "./components/List.vue";
         margin: 0 auto;
     }
 
+    .block__flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        outline: none;
+        border: 1px solid #302E30;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .add-item__title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .add-item__btn {
+        outline: none;
+        font-size: 1.2em;
+        border: none;
+        padding: 10px;
+        border-radius: 7px;
+        background-color: #c3c3c3;
+        cursor: pointer;
+    }
+
+    .add-item {
+        margin: 0 auto;
+        width: 50%;
+    }
 </style>

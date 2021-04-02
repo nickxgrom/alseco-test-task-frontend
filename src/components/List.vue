@@ -27,6 +27,7 @@
                         v-for="key in Object.keys(pageTableData[row-1])"
                         v-if="key !== 'id' && key !== 'employeeId'"
                         @contextmenu="contextMenuHandler($event, row, pageTableData[row-1])"
+                        @dblclick="$emit('selectedEmp', pageTableData[row-1]['id'])"
                     >
                         {{ pageTableData[row-1][key] }}
                     </td>
