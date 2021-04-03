@@ -1,6 +1,9 @@
 <template>
-    <form-wrapper title="Сотрудник" @closeForm="$emit('closeForm')">
+    <form-wrapper
+        title="Сотрудник"
+        @closeForm="$emit('closeForm')">
         <list
+            @openForm="formVisible = true"
             table-name="Материальные ценности сотрудника"
             :numerable="true"
             :table-data="employeeMaterialValues"
@@ -10,21 +13,12 @@
         ></list>
         <div>Итого {{$store.getters.MVTotalPrice}}</div>
 
-        <div class="add-item">
-            <div class="add-item__title">
-                Добавить МЦ для сотрудника
-            </div>
-            <div class="block__flex">
-                <input v-model="newMV" type="text" placeholder="Название">
-                <input v-model="newMVPrice" type="text" placeholder="Цена">
-                <button
-                    class="add-item__btn"
-                    @click="createEmployeeMV"
-                >
-                    Добавить
-                </button>
-            </div>
-        </div>
+        <add-material-value-form
+            @closeForm="formVisible = false"
+            v-if="formVisible"
+            :id="$props.id"
+        />
+
     </form-wrapper>
 </template>
 
@@ -32,18 +26,21 @@
     import Overlay from "../Overlay.vue";
     import List from "../List.vue";
     import FormWrapper from "./FormWrapper.vue";
+    import AddMaterialValueForm from "./AddMaterialValueForm.vue";
     export default {
         name: "Form",
         components: {
             Overlay,
             List,
-            FormWrapper
+            FormWrapper,
+            AddMaterialValueForm,
         },
         data() {
             return {
                 employeeMaterialValues: [],
                 newMV: '',
                 newMVPrice: '',
+                formVisible: false,
             }
         },
         props: {
@@ -66,22 +63,6 @@
                     this.$store.commit('removeEmployeeMV', id)
                 })
             },
-            createEmployeeMV() {
-                let obj = {
-                    materialValueName: this.newMV,
-                    materialValuePrice: this.newMVPrice,
-                    id: this.$props.id
-                }
-                fetch(`http://localhost:3000/employees/${this.$props.id}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(obj)
-                }).then(() => {
-                    this.$store.commit('addEmployeeMV', obj)
-                })
-            }
         }
     }
 </script>
@@ -94,21 +75,5 @@
         border-radius: 7px;
         margin: 0 auto;
         text-align: center;
-    }
-
-    .add-item__title {
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
-
-    .add-item__btn {
-        outline: none;
-        font-size: 1.2em;
-        cursor: pointer;
-    }
-
-    .add-item {
-        margin: 0 auto;
-        width: 70%;
     }
 </style>

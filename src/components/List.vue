@@ -2,7 +2,12 @@
     <div>
         <div class="block_flex">
             <h3>{{tableName}}</h3>
-            <button class="btn btn_action">Добавить</button>
+            <button
+                class="btn btn_action"
+                @click="$emit('openForm')"
+            >
+                Добавить
+            </button>
         </div>
         <div class="employee-list">
             <table class="table_block">
@@ -51,19 +56,27 @@
             :record="currentRecord"
             :delete-action="onDelete"
         />
+        <form-wrapper
+            @closeForm="formVisible = false"
+            v-if="formVisible"
+            title="Добавить сотрудника"
+        >
+        </form-wrapper>
     </div>
 </template>
 
 <script>
 import ContextMenu from "./ContextMenu.vue";
 import Overlay from "./Overlay.vue";
-import ConfirmDialog from "../ConfirmDialog.vue";
+import ConfirmDialog from "./ConfirmDialog.vue";
+import FormWrapper from "./Form/FormWrapper.vue";
     export default {
         name: "List",
         components: {
             ContextMenu,
             Overlay,
             ConfirmDialog,
+            FormWrapper
         },
         props: {
             tableName: String,
@@ -81,6 +94,7 @@ import ConfirmDialog from "../ConfirmDialog.vue";
                 clientPosition: {},
                 overlayVisible: false,
                 currentRecord: null,
+                formVisible: false,
                 contextMenuItems: [
                     {
                         title: 'Удалить',
@@ -107,6 +121,10 @@ import ConfirmDialog from "../ConfirmDialog.vue";
                 this.currentRecord = record
                 e.preventDefault()
             },
+            test() {
+                // this.formVisible = true
+                console.log(534)
+            }
         }
     }
 </script>
