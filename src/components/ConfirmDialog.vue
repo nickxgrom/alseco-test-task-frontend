@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import Overlay from "./components/Overlay.vue";
+    import Overlay from "./Overlay.vue";
     export default {
         name: "ConfirmDialog",
         components: {

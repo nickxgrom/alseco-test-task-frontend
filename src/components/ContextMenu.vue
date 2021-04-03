@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import ConfirmDialog from "../ConfirmDialog.vue";
+    import ConfirmDialog from "./ConfirmDialog.vue";
     import Overlay from "./Overlay.vue";
     export default {
         name: "ContextMenu",

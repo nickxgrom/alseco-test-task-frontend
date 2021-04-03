@@ -29,9 +29,9 @@
 </template>
 
 <script>
-    import Overlay from "./Overlay.vue";
-    import List from "./List.vue";
-    import FormWrapper from "./Form/FormWrapper.vue";
+    import Overlay from "../Overlay.vue";
+    import List from "../List.vue";
+    import FormWrapper from "./FormWrapper.vue";
     export default {
         name: "Form",
         components: {

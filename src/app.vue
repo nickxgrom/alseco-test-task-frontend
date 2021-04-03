@@ -32,7 +32,7 @@
 
 <script>
 import List from "./components/List.vue";
-import EmployeeMaterialValueForm from "./components/EmployeeMaterialValueForm.vue";
+import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueForm.vue";
 
     export default {
         name: "app",
