@@ -2,6 +2,7 @@
     <div class="wrapper">
         <h1>ALSECO test task</h1>
         <list
+            @openForm="addEmployeeFormVisible = true"
             table-name="Список сотрудников"
             :headers="['ФИО', 'Количество', 'Общая стоимость']"
             :table-data="tableData"
@@ -11,21 +12,15 @@
             @selectedEmp="formHandler($event)"
 
         ></list>
-        <div class="add-item">
-            <div class="add-item__title">
-                Добавить сотрудника
-            </div>
-            <div class="block__flex">
-                <input v-model="newEmployeeFirstName" type="text" placeholder="Имя">
-                <input v-model="newEmployeeSecondName" type="text" placeholder="Фамилия">
-                <input v-model="newEmployeePatronymic" type="text" placeholder="Отчество">
-                <button @click="submitNewEmployee" class="add-item__btn">Добавить</button>
-            </div>
-        </div>
         <employee-material-value-form
             v-if="formVisible"
             :id="selectedEmpId"
             @closeForm="formVisible = false"
+        />
+
+        <add-employee-form
+            v-if="addEmployeeFormVisible"
+            @closeForm="addEmployeeFormVisible = false"
         />
     </div>
 </template>
@@ -33,12 +28,14 @@
 <script>
 import List from "./components/List.vue";
 import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueForm.vue";
+import AddEmployeeForm from "./components/Form/AddEmployeeForm.vue";
 
     export default {
         name: "app",
         components: {
             List,
             EmployeeMaterialValueForm,
+            AddEmployeeForm,
         },
         created() {
             window.getSelection().addRange(new Range())
@@ -54,9 +51,7 @@ import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueFo
                 tableData: [],
                 selectedEmpId: null,
                 formVisible: false,
-                newEmployeeFirstName: "",
-                newEmployeeSecondName: "",
-                newEmployeePatronymic: "",
+                addEmployeeFormVisible: false,
             }
         },
         methods: {
@@ -72,25 +67,6 @@ import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueFo
                 this.selectedEmpId = id
                 this.formVisible = true
             },
-            submitNewEmployee() {
-                let obj = {
-                    firstName: this.newEmployeeFirstName,
-                    secondName: this.newEmployeeSecondName,
-                    patronymic: this.newEmployeePatronymic
-                }
-                fetch(`http://localhost:3000/employees/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(obj)
-                }).then((res) => {
-                    res.json().then(r => {
-                        obj.id = r.id
-                        this.$store.commit('addEmployee', obj)
-                    })
-                })
-            }
         },
     }
 </script>
@@ -122,11 +98,6 @@ import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueFo
         border-radius: 10px;
     }
 
-    .add-item__title {
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
-
     .add-item__btn {
         outline: none;
         font-size: 1.2em;
@@ -137,8 +108,4 @@ import EmployeeMaterialValueForm from "./components/Form/EmployeeMaterialValueFo
         cursor: pointer;
     }
 
-    .add-item {
-        margin: 0 auto;
-        width: 50%;
-    }
 </style>
