@@ -1,6 +1,7 @@
 <template>
     <div class="overlay">
         <slot class="slot"></slot>
+        <button class="btn_close" @click="$emit('closeOverlay')">Закрыть</button>
     </div>
 </template>
 
@@ -25,5 +26,17 @@ export default {
 
     .slot {
         margin: 0 auto;
+    }
+
+    .btn_close {
+        display: block;
+        margin: 10px auto;
+        font-size: 1.2em;
+        font-family: 'Ubuntu', sans-serif;
+        outline: none;
+        border: none;
+        border-radius: 7px;
+        padding: 5px 20px;
+        cursor: pointer;
     }
 </style>

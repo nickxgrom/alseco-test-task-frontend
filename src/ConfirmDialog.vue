@@ -1,6 +1,5 @@
 <template>
-    <overlay
-    >
+    <overlay @closeOverlay="$emit('close')">
         <div class="confirm-dialog">
             <div class="title">
                 Подтверждение

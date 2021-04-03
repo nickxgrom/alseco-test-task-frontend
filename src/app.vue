@@ -22,7 +22,7 @@
                 <button @click="submitNewEmployee" class="add-item__btn">Добавить</button>
             </div>
         </div>
-        <Form
+        <employee-material-value-form
             v-if="formVisible"
             :id="selectedEmpId"
             @closeForm="formVisible = false"
@@ -32,13 +32,13 @@
 
 <script>
 import List from "./components/List.vue";
-import Form from "./components/Form.vue";
+import EmployeeMaterialValueForm from "./components/EmployeeMaterialValueForm.vue";
 
     export default {
         name: "app",
         components: {
             List,
-            Form,
+            EmployeeMaterialValueForm,
         },
         created() {
             window.getSelection().addRange(new Range())
@@ -92,8 +92,6 @@ import Form from "./components/Form.vue";
                 })
             }
         },
-        computed: {
-        }
     }
 </script>
 

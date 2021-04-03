@@ -1,52 +1,43 @@
 <template>
-    <overlay>
-        <form @submit="$event.preventDefault()">
-            <h2>Сотрудник</h2>
-            <div>
-            </div>
-            <list
-                table-name="Материальные ценности сотрудника"
-                :numerable="true"
-                :table-data="employeeMaterialValues"
-                :headers="['Название', 'Стоимость']"
-                :row-limit="10"
-                :on-delete="deleteAction"
-            ></list>
-            <div>Итого {{$store.getters.MVTotalPrice}}</div>
+    <form-wrapper title="Сотрудник" @closeForm="$emit('closeForm')">
+        <list
+            table-name="Материальные ценности сотрудника"
+            :numerable="true"
+            :table-data="employeeMaterialValues"
+            :headers="['Название', 'Стоимость']"
+            :row-limit="10"
+            :on-delete="deleteAction"
+        ></list>
+        <div>Итого {{$store.getters.MVTotalPrice}}</div>
 
-            <div class="add-item">
-                <div class="add-item__title">
-                    Добавить МЦ для сотрудника
-                </div>
-                <div class="block__flex">
-                    <input v-model="newMV" type="text" placeholder="Название">
-                    <input v-model="newMVPrice" type="text" placeholder="Цена">
-                    <button
-                        class="add-item__btn"
-                        @click="createEmployeeMV"
-                    >
-                        Добавить
-                    </button>
-                </div>
+        <div class="add-item">
+            <div class="add-item__title">
+                Добавить МЦ для сотрудника
             </div>
-
-            <button
-                @click="$emit('closeForm')"
-            >
-                Закрыть
-            </button>
-        </form>
-    </overlay>
+            <div class="block__flex">
+                <input v-model="newMV" type="text" placeholder="Название">
+                <input v-model="newMVPrice" type="text" placeholder="Цена">
+                <button
+                    class="add-item__btn"
+                    @click="createEmployeeMV"
+                >
+                    Добавить
+                </button>
+            </div>
+        </div>
+    </form-wrapper>
 </template>
 
 <script>
     import Overlay from "./Overlay.vue";
     import List from "./List.vue";
+    import FormWrapper from "./Form/FormWrapper.vue";
     export default {
         name: "Form",
         components: {
             Overlay,
-            List
+            List,
+            FormWrapper
         },
         data() {
             return {
