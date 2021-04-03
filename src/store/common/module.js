@@ -7,6 +7,15 @@ const module = {
         getData(state, data) {
             state.data = data
         },
+        addEmployee(state, newEmployee) {
+            let obj = {
+                fullName: `${newEmployee.secondName} ${newEmployee.firstName[0]}. ${newEmployee.patronymic[0]}.`,
+                materialValueCount: 0,
+                materialValuesPrice: 0,
+                id: newEmployee.id
+            }
+            state.data.push(obj)
+        },
         removeEmployee(state, id) {
             state.data.splice(state.data.findIndex(item => item.id === id), 1)
         },

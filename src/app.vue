@@ -16,10 +16,10 @@
                 Добавить сотрудника
             </div>
             <div class="block__flex">
-                <input type="text" placeholder="Имя">
-                <input type="text" placeholder="Фамилия">
-                <input type="text" placeholder="Отчество">
-                <button class="add-item__btn">Добавить</button>
+                <input v-model="newEmployeeFirstName" type="text" placeholder="Имя">
+                <input v-model="newEmployeeSecondName" type="text" placeholder="Фамилия">
+                <input v-model="newEmployeePatronymic" type="text" placeholder="Отчество">
+                <button @click="submitNewEmployee" class="add-item__btn">Добавить</button>
             </div>
         </div>
         <Form
@@ -54,6 +54,9 @@ import Form from "./components/Form.vue";
                 tableData: [],
                 selectedEmpId: null,
                 formVisible: false,
+                newEmployeeFirstName: "",
+                newEmployeeSecondName: "",
+                newEmployeePatronymic: "",
             }
         },
         methods: {
@@ -68,6 +71,25 @@ import Form from "./components/Form.vue";
             formHandler(id) {
                 this.selectedEmpId = id
                 this.formVisible = true
+            },
+            submitNewEmployee() {
+                let obj = {
+                    firstName: this.newEmployeeFirstName,
+                    secondName: this.newEmployeeSecondName,
+                    patronymic: this.newEmployeePatronymic
+                }
+                fetch(`http://localhost:3000/employees/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(obj)
+                }).then((res) => {
+                    res.json().then(r => {
+                        obj.id = r.id
+                        this.$store.commit('addEmployee', obj)
+                    })
+                })
             }
         },
         computed: {
