@@ -11,7 +11,10 @@
             :row-limit="10"
             :on-delete="deleteAction"
         ></list>
-        <div>Итого {{$store.getters.MVTotalPrice}}</div>
+        <div class="amount">
+            Итого:
+            <span class="amount-diff-color">{{$store.getters.MVTotalPrice}}</span>
+        </div>
 
         <add-material-value-form
             @closeForm="formVisible = false"
@@ -75,5 +78,16 @@
         border-radius: 7px;
         margin: 0 auto;
         text-align: center;
+    }
+    
+    .amount {
+        font-size: 1.2em;
+        float: right;
+    }
+
+    .amount-diff-color {
+        padding: 5px;
+        border-radius: 7px;
+        background-color: #01987A;
     }
 </style>
