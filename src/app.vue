@@ -90,15 +90,18 @@ import AddEmployeeForm from "./components/Form/AddEmployeeForm.vue";
     }
 
     input {
+        box-sizing: border-box;
+        width: 100%;
         font-size: 1.2em;
-        margin-bottom: 10px;
+        margin-top: 10px;
         outline: none;
         border: 1px solid #302E30;
-        padding: 5px;
-        border-radius: 10px;
+        padding: 5px 10px;
+        border-radius: 7px;
     }
 
     .add-item__btn {
+        margin-top: 10px;
         outline: none;
         font-size: 1.2em;
         border: none;
