@@ -1,7 +1,13 @@
 <template>
     <form-wrapper
         title="Сотрудник"
-        @closeForm="$emit('closeForm')">
+        @closeForm="$emit('closeForm')"
+    >
+        <div class="employee-info">
+            Фамилия: <span class="employee-name">{{employee.secondName}}</span> <br>
+            Имя: <span class="employee-name">{{employee.firstName}}</span> <br>
+            Отчество: <span class="employee-name">{{employee.patronymic}}</span> <br>
+        </div>
         <list
             @openForm="formVisible = true"
             table-name="Материальные ценности сотрудника"
@@ -40,9 +46,8 @@
         },
         data() {
             return {
+                employee: {},
                 employeeMaterialValues: [],
-                newMV: '',
-                newMVPrice: '',
                 formVisible: false,
             }
         },
@@ -55,6 +60,11 @@
                     .then(mv => {
                         this.$store.commit('setCurrentEmployeeMV', mv)
                         this.employeeMaterialValues = mv
+                    })
+            fetch(`http://localhost:3000/employee/${this.$props.id}`)
+                .then(res => res.json())
+                    .then(employee => {
+                        this.employee = employee
                     })
         },
         methods: {
@@ -89,5 +99,15 @@
         padding: 5px;
         border-radius: 7px;
         background-color: #01987A;
+    }
+    
+    .employee-info {
+        margin: 10px 0;
+        text-align: left;
+        font-size: 1.1em;
+    }
+
+    .employee-name {
+        font-weight: bold;
     }
 </style>
