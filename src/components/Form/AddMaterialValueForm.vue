@@ -12,7 +12,6 @@
                     :placeholder="field.placeholder"
                     type="text"
                     :class="{ 'input_error': field.touched && !field.rule.test(field.value) }"
-                    @change=""
                     @input="field.touched = true"
                 >
                 <div

@@ -4,12 +4,23 @@
         @closeForm="$emit('closeForm')"
     >
         <div class="block__flex">
-            <input
-                type="text"
+            <div
                 v-for="field in fields"
-                :placeholder="field.placeholder"
-                v-model="field.value"
             >
+                <input
+                    v-model="field.value"
+                    :placeholder="field.placeholder"
+                    type="text"
+                    :class="{ 'input_error': field.touched && !field.rule.test(field.value) }"
+                    @input="field.touched = true"
+                >
+                <div
+                    v-show="field.touched && !field.rule.test(field.value)"
+                    class="error-message"
+                >
+                    {{ field.errorMessage }}
+                </div>
+            </div>
             <button class="add-item__btn" @click="submit">Добавить</button>
         </div>
     </form-wrapper>
@@ -28,23 +39,39 @@
                     {
                         value: '',
                         placeholder: 'Фамилия',
-                        rule: /\./
+                        rule: /^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$/,
+                        errorMessage: "Введите корректную фамлию",
+                        touched: false,
                     },
                     {
                         value: '',
                         placeholder: 'Имя',
-                        rule: /\./
+                        rule: /^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$/,
+                        errorMessage: "Введите корректное имя",
+                        touched: false,
                     },
                     {
                         value: '',
                         placeholder: 'Отчество',
-                        rule: /\./
+                        rule: /^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$/,
+                        errorMessage: "Введите корректное отчество",
+                        touched: false,
                     },
                 ],
             }
         },
         methods: {
             submit() {
+                let err = false
+                this.fields.forEach(field => {
+                    field.touched = !field.rule.test(field.value)
+                    err = err || !field.rule.test(field.value)
+                })
+
+                if (err) {
+                    return
+                }
+
                 let obj = {
                     firstName: this.fields[1].value,
                     secondName: this.fields[0].value,
@@ -69,5 +96,13 @@
 </script>
 
 <style scoped>
+    .input_error {
+        outline-color: #FF5252;
+        outline-style: auto;
+    }
 
+    .error-message {
+        color: #FF5252;
+        user-select: none;
+    }
 </style>
