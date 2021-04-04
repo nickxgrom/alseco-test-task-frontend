@@ -46,8 +46,8 @@
         methods: {
             submit() {
                 let obj = {
-                    firstName: this.fields[0].value,
-                    secondName: this.fields[1].value,
+                    firstName: this.fields[1].value,
+                    secondName: this.fields[0].value,
                     patronymic:  this.fields[2].value
                 }
                 fetch(`http://localhost:3000/employees/`, {
