@@ -121,10 +121,6 @@ import FormWrapper from "./Form/FormWrapper.vue";
                 this.currentRecord = record
                 e.preventDefault()
             },
-            test() {
-                // this.formVisible = true
-                console.log(534)
-            }
         }
     }
 </script>

@@ -59,7 +59,6 @@ import AddEmployeeForm from "./components/Form/AddEmployeeForm.vue";
                 fetch(`http://localhost:3000/employee/${id}`, {
                     method: 'DELETE'
                 }).then(res => {
-                    console.log(res)
                     this.$store.commit('removeEmployee', id)
                 })
             },

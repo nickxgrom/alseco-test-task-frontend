@@ -29,7 +29,6 @@ const module = {
             state.currentEmployeeMV = mvArr
         },
         addEmployeeMV(state, newMV) {
-            console.log(newMV.id)
             state.data[state.data.findIndex( item => item.id === newMV.id)].materialValuesPrice += +newMV.materialValuePrice
             state.data[state.data.findIndex( item => item.id === newMV.id)].materialValueCount++
             state.currentEmployeeMV.push(newMV)
