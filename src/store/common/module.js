@@ -19,8 +19,11 @@ const module = {
         removeEmployee(state, id) {
             state.data.splice(state.data.findIndex(item => item.id === id), 1)
         },
-        removeEmployeeMV(state, id) {
-            state.currentEmployeeMV.splice(state.currentEmployeeMV.findIndex(item => item.id === id), 1)
+        removeEmployeeMV(state, mv) {
+            state.currentEmployeeMV.splice(state.currentEmployeeMV.findIndex(item => item.id === mv.employeeId), 1)
+            state.data[state.data.findIndex(item => item.id === mv.employeeId)].materialValuesPrice -= mv.price
+            state.data[state.data.findIndex(item => item.id === mv.employeeId)].materialValueCount--
+
         },
         setCurrentEmployeeMV(state, mvArr) {
             state.currentEmployeeMV = mvArr

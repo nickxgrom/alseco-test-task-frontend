@@ -61,10 +61,10 @@
             deleteAction(id) {
                 fetch(`http://localhost:3000/materialValue/${id}`, {
                     method: 'DELETE'
-                }).then(res => {
-                    console.log(res)
-                    this.$store.commit('removeEmployeeMV', id)
-                })
+                }).then(res => res.json())
+                    .then(mv => {
+                        this.$store.commit('removeEmployeeMV', mv)
+                    })
             },
         }
     }
